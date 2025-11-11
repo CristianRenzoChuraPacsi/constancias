@@ -14,30 +14,15 @@ const model = computed(() => [
     label: 'Pages',
     icon: 'pi pi-fw pi-briefcase',
     items: [
-      auth.hasPermission('tenants.view') && {
-        label: 'Empresas',
-        icon: 'pi pi-fw pi-building',
-        to: '/pages/empresas'
-      },
       auth.hasPermission('conductores.view') && {
         label: 'Conductores',
         icon: 'pi pi-fw pi-id-card',
         to: '/pages/conductores'
       },
-      auth.hasPermission('vehiculos.view') && {
-        label: 'Vehículos',
-        icon: 'pi pi-fw pi-car',
-        to: '/pages/vehiculos'
-      },
       auth.hasPermission('users.view') && {
         label: 'Usuarios',
         icon: 'pi pi-fw pi-user',
         to: '/pages/usuarios'
-      },
-      auth.hasPermission('users.view') && {
-        label: 'Crud',
-        icon: 'pi pi-fw pi-book',
-        to: '/pages/crud'
       }
     ].filter(Boolean)
   }

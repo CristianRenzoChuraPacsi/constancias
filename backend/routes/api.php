@@ -5,10 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TenantController;
-use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ConductorController;
-use App\Http\Controllers\RutaController;
 
 // =========================
 // AUTH
@@ -41,22 +38,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{rol}', [RoleController::class, 'destroy'])->middleware('permission:roles.delete');
     });
 
-    // TENANTS
-    Route::prefix('tenants')->group(function () {
-        Route::get('/', [TenantController::class, 'index'])->middleware('role:super_admin');
-        Route::get('/{tenant}', [TenantController::class, 'show'])->middleware('role:super_admin');
-        Route::post('/', [TenantController::class, 'store'])->middleware('role:super_admin');
-        Route::put('/{tenant}', [TenantController::class, 'update'])->middleware('role:super_admin');
-        Route::delete('/{tenant}', [TenantController::class, 'destroy'])->middleware('role:super_admin');
-    });
-
-    // VEHICULOS
-    Route::prefix('vehiculos')->group(function () {
-        Route::get('/', [VehiculoController::class, 'index'])->middleware('permission:vehiculos.view');
-        Route::post('/', [VehiculoController::class, 'store'])->middleware('permission:vehiculos.create');
-        Route::put('editar/{vehiculo}', [VehiculoController::class, 'update'])->middleware('permission:vehiculos.edit');
-    });
-
     // CONDUCTORES
     Route::prefix('conductores')->group(function () {
         Route::get('/', [ConductorController::class, 'index'])->middleware('permission:conductores.view');
@@ -66,11 +47,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('desactivar/{conductor}', [ConductorController::class, 'desactivar'])->middleware('permission:conductores.delete');
     });
 
-    // RUTAS
-    Route::prefix('rutas')->group(function () {
-        Route::get('/', [RutaController::class, 'index'])->middleware('permission:rutas.view');
-        Route::post('/', [RutaController::class, 'store'])->middleware('permission:rutas.create');
-        Route::put('/{ruta}', [RutaController::class, 'update'])->middleware('permission:rutas.edit');
-        Route::delete('/{ruta}', [RutaController::class, 'destroy'])->middleware('permission:rutas.delete');
-    });
 });

@@ -4,7 +4,6 @@ import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode } from '@primevue/core/api';
 import UsersService from '@/services/UsersService';
 import RolesService from '@/services/RolesService';
-import TenantsService from '@/services/TenantsService';
 
 const toast = useToast();
 const dt = ref(); // Referencia a la DataTable
@@ -53,23 +52,6 @@ async function listarRoles() {
   }
 }
 
-// Obtener lista de tenants (empresas)
-async function listarTenants() {
-  try {
-    const tenantsData = await TenantsService.getTenants();
-    tenantsList.value = tenantsData;
-
-    // Mostramos nombre o siglas en el select
-    tenantItems.value = tenantsList.value.map(t => ({
-      label: t.nombre || t.siglas || ('Tenant ' + t.id),
-      value: t.id
-    }));
-  } catch (error) {
-    console.error(error);
-    toast.add({ severity: 'warn', summary: 'Aviso', detail: 'No se pudieron cargar tenants', life: 3000 });
-  }
-}
-
 // Abrir formulario para crear un nuevo usuario
 function nuevoUser() {
   user.value = {};
@@ -96,7 +78,6 @@ async function guardarUser() {
         name: user.value.name,
         email: user.value.email,
         password: user.value.password,
-        tenant_id: user.value.tenant_id,
         roles: user.value.roles
       };
 
@@ -198,7 +179,6 @@ onMounted(async () => {
       <Column field="name" header="Nombre" sortable />
       <Column field="email" header="Email" sortable />
       <Column field="estado" header="Estado" sortable />
-      <Column field="tenant_id" header="Empresa" sortable />
       <Column field="roles" header="Rol">
         <template #body="slotProps">
           <Tag v-for="rol in slotProps.data.roles" :key="rol.id" :value="rol.name" severity="info" class="mr-1" />
@@ -255,11 +235,6 @@ onMounted(async () => {
           <small v-if="submitted && !user.password" class="text-red-500">
             Contraseña requerida.
           </small>
-        </div>
-
-        <div>
-          <label for="tenant" class="block font-bold mb-2">Empresa</label>
-          <Dropdown id="tenant" v-model="user.tenant_id" :options="tenantItems" optionLabel="label" optionValue="value" placeholder="Selecciona empresa" fluid />
         </div>
 
         <div>

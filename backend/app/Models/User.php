@@ -17,7 +17,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'tenant_id',
         'estado', // Añadido por consistencia con activar/desactivar
     ];
 
@@ -38,25 +37,5 @@ class User extends Authenticatable
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
-    }
-
-    // Multi-tenant automático
-    protected static function booted()
-    {
-        // Filtro global por tenant
-        static::addGlobalScope('tenant', function ($builder) {
-            $user = Auth::user();
-            if ($user && !$user->hasRole('super_admin')) {
-                $builder->where('tenant_id', $user->tenant_id);
-            }
-        });
-
-        // Asignar tenant_id al crear
-        static::creating(function ($model) {
-            $user = Auth::user();
-            if ($user && empty($model->tenant_id) && !$user->hasRole('super_admin')) {
-                $model->tenant_id = $user->tenant_id;
-            }
-        });
     }
 }

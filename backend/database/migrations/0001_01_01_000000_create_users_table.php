@@ -20,10 +20,6 @@ return new class extends Migration
             $table->string('estado');
             $table->rememberToken();
             $table->timestamps();
-
-            //TenantId
-            $table->unsignedBigInteger('tenant_id')->nullable();
-            $table->foreign('tenant_id')->references('id')->on('tenants')->nullOnDelete();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

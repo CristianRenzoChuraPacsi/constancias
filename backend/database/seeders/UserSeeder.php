@@ -20,27 +20,27 @@ class UserSeeder extends Seeder
         $super = User::create([
             'name' => 'Super Admin',
             'email' => 'super@admin.com',
-            'password' => Hash::make('admin12345'),
-            'tenant_id' => null,
+            'password' => Hash::make('password12345'),
+            'estado' => 'activo',
         ]);
         $super->assignRole('super_admin');
 
-        // Admin Empresa A
-        $empresaA = User::create([
-            'name' => 'Admin Empresa A',
-            'email' => 'admin@empresaa.com',
+        // computo
+        $computo = User::create([
+            'name' => 'computo',
+            'email' => 'computo@computo.com',
             'password' => Hash::make('passworda'),
-            'tenant_id' => 1,
+            'estado' => 'activo',
         ]);
-        $empresaA->assignRole('admin');
+        $computo->assignRole('computo');
 
-        // Admin Empresa B
-        $empresaB = User::create([
-            'name' => 'Admin Empresa B',
-            'email' => 'admin@empresab.com',
+        // secretaria
+        $secretaria = User::create([
+            'name' => 'secretaria',
+            'email' => 'secretaria@secretaria.com',
             'password' => Hash::make('passwordb'),
-            'tenant_id' => 2,
+            'estado' => 'activo',
         ]);
-        $empresaB->assignRole('admin');
+        $secretaria->assignRole('secretaria');
     }
 }

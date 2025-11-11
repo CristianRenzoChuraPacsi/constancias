@@ -22,20 +22,4 @@ class Conductor extends Model
     protected $guarded = 'id';
     public $timestamps = true;
  
-    protected static function booted()
-    {
-        static::addGlobalScope('tenant', function ($builder) {
-            $user = Auth::user();
-            if ($user && !$user->hasRole('super_admin')) {
-                $builder->where('tenant_id', $user->tenant_id);
-            }
-        });
-
-        static::creating(function ($model) {
-            $user = Auth::user();
-            if ($user && empty($model->tenant_id) && !$user->hasRole('super_admin')) {
-                $model->tenant_id = $user->tenant_id;
-            }
-        });
-    }
 }

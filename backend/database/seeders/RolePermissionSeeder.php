@@ -17,8 +17,8 @@ class RolePermissionSeeder extends Seeder
         // ========= CREAR ROLES =========
         $superAdmin = Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
         $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $operador = Role::firstOrCreate(['name' => 'operador', 'guard_name' => 'web']);
-        $consulta = Role::firstOrCreate(['name' => 'consulta', 'guard_name' => 'web']);
+        $secretaria = Role::firstOrCreate(['name' => 'secretaria', 'guard_name' => 'web']);
+        $computo = Role::firstOrCreate(['name' => 'computo', 'guard_name' => 'web']);
 
         // ========= PERMISOS =========
         $permisos = [
@@ -28,17 +28,11 @@ class RolePermissionSeeder extends Seeder
             // ROLES
             'roles.view','roles.create','roles.edit','roles.delete',
 
-            // TENANTS
-            'tenants.view','tenants.create','tenants.edit','tenants.delete',
+            // DOCENTES
+            'docentes.view','docentes.create','docentes.edit','docentes.delete',
 
-            // CONDUCTORES
-            'conductores.view','conductores.create','conductores.edit','conductores.delete',
-
-            // VEHICULOS
-            'vehiculos.view','vehiculos.create','vehiculos.edit','vehiculos.delete',
-
-            // RUTAS
-            'rutas.view','rutas.create','rutas.edit','rutas.delete',
+            // ASISTENCIA_DOCENTES
+            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
         ];
 
         foreach ($permisos as $permiso) {
@@ -50,29 +44,23 @@ class RolePermissionSeeder extends Seeder
         // SUPER ADMIN: todos los permisos
         $superAdmin->syncPermissions(Permission::all());
 
-        // ADMIN: CRUD completo de usuarios, conductores, vehículos, rutas, pero no tenants globales
+        // ADMIN: CRUD global
         $admin->syncPermissions([
             'users.view','users.create','users.edit','users.delete',
-            'conductores.view','conductores.create','conductores.edit','conductores.delete',
-            'vehiculos.view','vehiculos.create','vehiculos.edit','vehiculos.delete',
-            'rutas.view','rutas.create','rutas.edit','rutas.delete',
+            'docentes.view','docentes.create','docentes.edit','docentes.delete',
+            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
         ]);
 
-        // OPERADOR: solo view, create, edit en conductores, vehículos y rutas
-        $operador->syncPermissions([
-            'conductores.view','conductores.create','conductores.edit',
-            'vehiculos.view','vehiculos.create','vehiculos.edit',
-            'rutas.view','rutas.create','rutas.edit',
+        // COMPUTO: docentes
+        $computo->syncPermissions([
+            'docentes.view','docentes.create','docentes.edit','docentes.delete',
+            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
         ]);
 
-        // CONSULTA: solo view en todos los módulos
-        $consulta->syncPermissions([
-            'users.view',
-            'roles.view',
-            'tenants.view',
-            'conductores.view',
-            'vehiculos.view',
-            'rutas.view',
+        // CONSULTAS
+        $secretaria->syncPermissions([
+            'docentes.view',
+            'asistencia_docentes.view',
         ]);
     }
 }
