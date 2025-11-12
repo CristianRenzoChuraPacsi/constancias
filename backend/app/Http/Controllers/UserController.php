@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles', 'tenant')->get();
+        $users = User::with('roles')->get();
 
         return response()->json([
             'status'  => 'success',

@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useAuthStore } from '@/stores/auth'
 
 import Dashboard from '@/pages/Dashboard.vue'
-import Conductores from '@/pages/Conductores.vue'
+import Constancias from '@/pages/Constancias.vue'
 import Login from '@/pages/auth/Login.vue'
 import Users from '@/pages/Users.vue'
 
@@ -17,7 +17,7 @@ const routes = [
     meta: { requiresAuth: true }, // protege todo el layout
     children: [
       { path: '', name: 'Dashboard', component: Dashboard },
-      { path: '/pages/conductores', name: 'Conductores', component: Conductores, meta: { permission: 'conductores.view' } },
+      { path: '/pages/constancias', name: 'Constancias', component: Constancias, meta: { permission: 'constancias.view' } },
       { path: '/pages/usuarios', name: 'Users', component: Users, meta: { permission: 'users.view' } }, // o el permiso que uses
     ],
   },

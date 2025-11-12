@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ConductorController;
+use App\Http\Controllers\ConstanciaController;
 
 // =========================
 // AUTH
@@ -36,6 +36,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [RoleController::class, 'store'])->middleware('permission:roles.create');
         Route::put('/{rol}', [RoleController::class, 'update'])->middleware('permission:roles.edit');
         Route::delete('/{rol}', [RoleController::class, 'destroy'])->middleware('permission:roles.delete');
+    });
+
+    // CONSTANCIAS
+    Route::prefix('constancias')->group(function () {
+        Route::get('/', [ConstanciaController::class, 'index'])->middleware('permission:constancias.view');
+        Route::post('/', [ConstanciaController::class, 'store'])->middleware('permission:constancias.create');
+        Route::put('editar/{constancia}', [ConstanciaController::class, 'update'])->middleware('permission:constancia.edit');
+        Route::get('pdf/{id}', [ConstanciaController::class, 'generarPDF'])->middleware('permission:constancias.view');
     });
 
     // CONDUCTORES

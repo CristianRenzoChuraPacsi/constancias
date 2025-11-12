@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         // Super Admin Global
         $super = User::create([
             'name' => 'Super Admin',
-            'email' => 'super@admin.com',
+            'email' => 'superadmin@superadmin.com',
             'password' => Hash::make('password12345'),
             'estado' => 'activo',
         ]);

@@ -33,9 +33,4 @@ class User extends Authenticatable
         ];
     }
 
-    // Relación
-    public function tenant()
-    {
-        return $this->belongsTo(Tenant::class);
-    }
 }

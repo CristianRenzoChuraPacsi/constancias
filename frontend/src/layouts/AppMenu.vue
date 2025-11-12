@@ -14,10 +14,10 @@ const model = computed(() => [
     label: 'Pages',
     icon: 'pi pi-fw pi-briefcase',
     items: [
-      auth.hasPermission('conductores.view') && {
-        label: 'Conductores',
+      auth.hasPermission('constancias.view') && {
+        label: 'Constancias',
         icon: 'pi pi-fw pi-id-card',
-        to: '/pages/conductores'
+        to: '/pages/constancias'
       },
       auth.hasPermission('users.view') && {
         label: 'Usuarios',

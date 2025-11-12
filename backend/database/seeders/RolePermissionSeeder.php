@@ -16,10 +16,9 @@ class RolePermissionSeeder extends Seeder
     {
         // ========= CREAR ROLES =========
         $superAdmin = Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
-        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $secretaria = Role::firstOrCreate(['name' => 'secretaria', 'guard_name' => 'web']);
         $computo = Role::firstOrCreate(['name' => 'computo', 'guard_name' => 'web']);
-
+        $secretaria = Role::firstOrCreate(['name' => 'secretaria', 'guard_name' => 'web']);
+        
         // ========= PERMISOS =========
         $permisos = [
             // USERS
@@ -28,11 +27,8 @@ class RolePermissionSeeder extends Seeder
             // ROLES
             'roles.view','roles.create','roles.edit','roles.delete',
 
-            // DOCENTES
-            'docentes.view','docentes.create','docentes.edit','docentes.delete',
-
-            // ASISTENCIA_DOCENTES
-            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
+            // CONSTANCIAS
+            'constancias.view','constancias.create','constancias.edit','constancias.delete',
         ];
 
         foreach ($permisos as $permiso) {
@@ -44,23 +40,16 @@ class RolePermissionSeeder extends Seeder
         // SUPER ADMIN: todos los permisos
         $superAdmin->syncPermissions(Permission::all());
 
-        // ADMIN: CRUD global
-        $admin->syncPermissions([
-            'users.view','users.create','users.edit','users.delete',
-            'docentes.view','docentes.create','docentes.edit','docentes.delete',
-            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
-        ]);
-
-        // COMPUTO: docentes
+        // COMPUTO
         $computo->syncPermissions([
-            'docentes.view','docentes.create','docentes.edit','docentes.delete',
-            'asistencia_docentes.view','asistencia_docentes.create','asistencia_docentes.edit','asistencia_docentes.delete',
+            // CONSTANCIAS
+            'constancias.view','constancias.create','constancias.edit','constancias.delete',
         ]);
 
-        // CONSULTAS
+        // SECRETARIA
         $secretaria->syncPermissions([
-            'docentes.view',
-            'asistencia_docentes.view',
+            // CONSTANCIAS
+            'constancias.view','constancias.create','constancias.edit','constancias.delete',
         ]);
     }
 }

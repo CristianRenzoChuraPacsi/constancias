@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useToast } from 'primevue/usetoast';
-import { FilterMatchMode } from '@primevue/core/api';
-import UsersService from '@/services/UsersService';
-import RolesService from '@/services/RolesService';
+import { ref, onMounted } from "vue";
+import { useToast } from "primevue/usetoast";
+import { FilterMatchMode } from "@primevue/core/api";
+import UsersService from "@/services/UsersService";
+import RolesService from "@/services/RolesService";
 
 const toast = useToast();
 const dt = ref(); // Referencia a la DataTable
@@ -14,14 +14,12 @@ const submitted = ref(false); // Controla validaciones visuales
 
 // Listas de opciones para selects
 const rolesList = ref([]);
-const tenantsList = ref([]);
 
 // Listas formateadas para PrimeVue <Dropdown>
 const roleItems = ref([]);
-const tenantItems = ref([]);
 
 const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 // Obtener lista de usuarios
@@ -31,7 +29,12 @@ async function listarUsers() {
     users.value = data;
   } catch (error) {
     console.error(error);
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron obtener los usuarios', life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudieron obtener los usuarios",
+      life: 3000,
+    });
   }
 }
 
@@ -42,13 +45,18 @@ async function listarRoles() {
     rolesList.value = rolesData;
 
     // Convertimos el array de roles a un formato compatible con <Dropdown>
-    roleItems.value = rolesList.value.map(r => ({
+    roleItems.value = rolesList.value.map((r) => ({
       label: r.name,
-      value: r.name
+      value: r.name,
     }));
   } catch (error) {
     console.error(error);
-    toast.add({ severity: 'warn', summary: 'Aviso', detail: 'No se pudieron cargar roles', life: 3000 });
+    toast.add({
+      severity: "warn",
+      summary: "Aviso",
+      detail: "No se pudieron cargar roles",
+      life: 3000,
+    });
   }
 }
 
@@ -71,24 +79,33 @@ async function guardarUser() {
   try {
     // Validar si hay nombre y email antes de enviar
     if (user?.value?.name?.trim() && user?.value?.email?.trim()) {
-
       // Creamos el "payload" (datos que enviaremos a la API)
       // Esto permite tener control sobre qué campos se envían
       const payload = {
         name: user.value.name,
         email: user.value.email,
         password: user.value.password,
-        roles: user.value.roles
+        roles: user.value.roles,
       };
 
       if (user.value.id) {
         // Si el usuario ya tiene id => editar
         await UsersService.updateUser(user.value.id, payload);
-        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario actualizado', life: 3000 });
+        toast.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Usuario actualizado",
+          life: 3000,
+        });
       } else {
         // Caso contrario => crear nuevo usuario
         await UsersService.createUser(payload);
-        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario creado', life: 3000 });
+        toast.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Usuario creado",
+          life: 3000,
+        });
       }
 
       await listarUsers(); // Refrescamos la tabla
@@ -97,7 +114,12 @@ async function guardarUser() {
     }
   } catch (error) {
     console.error(error);
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo guardar el usuario', life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudo guardar el usuario",
+      life: 3000,
+    });
   }
 }
 
@@ -111,11 +133,21 @@ function editarUser(u) {
 async function desactivarUser(u) {
   try {
     await UsersService.desactivarUser(u.id);
-    toast.add({ severity: 'warn', summary: 'Desactivado', detail: 'Usuario desactivado correctamente', life: 3000 });
+    toast.add({
+      severity: "warn",
+      summary: "Desactivado",
+      detail: "Usuario desactivado correctamente",
+      life: 3000,
+    });
     await listarUsers();
   } catch (error) {
     console.error(error);
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo desactivar el usuario', life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudo desactivar el usuario",
+      life: 3000,
+    });
   }
 }
 
@@ -123,11 +155,21 @@ async function desactivarUser(u) {
 async function activarUser(u) {
   try {
     await UsersService.activarUser(u.id);
-    toast.add({ severity: 'success', summary: 'Activado', detail: 'Usuario activado correctamente', life: 3000 });
+    toast.add({
+      severity: "success",
+      summary: "Activado",
+      detail: "Usuario activado correctamente",
+      life: 3000,
+    });
     await listarUsers();
   } catch (error) {
     console.error(error);
-    toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo activar el usuario', life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudo activar el usuario",
+      life: 3000,
+    });
   }
 }
 
@@ -140,7 +182,6 @@ function exportCSV() {
 onMounted(async () => {
   await listarUsers();
   await listarRoles();
-  await listarTenants();
 });
 </script>
 
@@ -148,7 +189,12 @@ onMounted(async () => {
   <div class="card">
     <Toolbar class="mb-6">
       <template #start>
-        <Button label="Nuevo Usuario" icon="pi pi-user-plus" class="mr-2" @click="nuevoUser" />
+        <Button
+          label="Nuevo Usuario"
+          icon="pi pi-user-plus"
+          class="mr-2"
+          @click="nuevoUser"
+        />
       </template>
       <template #end>
         <Button label="Exportar" icon="pi pi-upload" @click="exportCSV" />
@@ -181,12 +227,25 @@ onMounted(async () => {
       <Column field="estado" header="Estado" sortable />
       <Column field="roles" header="Rol">
         <template #body="slotProps">
-          <Tag v-for="rol in slotProps.data.roles" :key="rol.id" :value="rol.name" severity="info" class="mr-1" />
+          <Tag
+            v-for="rol in slotProps.data.roles"
+            :key="rol.id"
+            :value="rol.name"
+            severity="info"
+            class="mr-1"
+          />
         </template>
       </Column>
       <Column header="Acciones">
         <template #body="slotProps">
-          <Button icon="pi pi-pencil" outlined rounded class="mr-1" severity="success" @click="editarUser(slotProps.data)" />
+          <Button
+            icon="pi pi-pencil"
+            outlined
+            rounded
+            class="mr-1"
+            severity="success"
+            @click="editarUser(slotProps.data)"
+          />
           <Button
             v-if="slotProps.data.estado === 'ACTIVO'"
             icon="pi pi-times"
@@ -208,18 +267,39 @@ onMounted(async () => {
     </DataTable>
 
     <!-- Formulario modal -->
-    <Dialog v-model:visible="userDialog" :style="{ width: '500px' }" header="Usuario" :modal="true">
+    <Dialog
+      v-model:visible="userDialog"
+      :style="{ width: '500px' }"
+      header="Usuario"
+      :modal="true"
+    >
       <div class="flex flex-col gap-4">
         <div>
           <label for="name" class="block font-bold mb-2">Nombre</label>
-          <InputText id="name" v-model.trim="user.name" required="true" :invalid="submitted && !user.name" fluid />
-          <small v-if="submitted && !user.name" class="text-red-500">Nombre requerido.</small>
+          <InputText
+            id="name"
+            v-model.trim="user.name"
+            required="true"
+            :invalid="submitted && !user.name"
+            fluid
+          />
+          <small v-if="submitted && !user.name" class="text-red-500"
+            >Nombre requerido.</small
+          >
         </div>
 
         <div>
           <label for="email" class="block font-bold mb-2">Email</label>
-          <InputText id="email" v-model.trim="user.email" required="true" :invalid="submitted && !user.email" fluid />
-          <small v-if="submitted && !user.email" class="text-red-500">Email requerido.</small>
+          <InputText
+            id="email"
+            v-model.trim="user.email"
+            required="true"
+            :invalid="submitted && !user.email"
+            fluid
+          />
+          <small v-if="submitted && !user.email" class="text-red-500"
+            >Email requerido.</small
+          >
         </div>
 
         <div>
@@ -239,7 +319,16 @@ onMounted(async () => {
 
         <div>
           <label for="roles" class="block font-bold mb-2">Roles</label>
-          <MultiSelect id="roles" v-model="user.roles" :options="roleItems" optionLabel="label" optionValue="value" display="chip" placeholder="Selecciona roles" fluid />
+          <MultiSelect
+            id="roles"
+            v-model="user.roles"
+            :options="roleItems"
+            optionLabel="label"
+            optionValue="value"
+            display="chip"
+            placeholder="Selecciona roles"
+            fluid
+          />
         </div>
       </div>
 
