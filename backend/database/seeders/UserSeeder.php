@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'superadmin@superadmin.com',
             'password' => Hash::make('password12345'),
-            'estado' => 'activo',
+            'estado' => 'ACTIVO',
         ]);
         $super->assignRole('super_admin');
 
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'name' => 'computo',
             'email' => 'computo@computo.com',
             'password' => Hash::make('passworda'),
-            'estado' => 'activo',
+            'estado' => 'INACTIVO',
         ]);
         $computo->assignRole('computo');
 
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             'name' => 'secretaria',
             'email' => 'secretaria@secretaria.com',
             'password' => Hash::make('passwordb'),
-            'estado' => 'activo',
+            'estado' => 'ACTIVO',
         ]);
         $secretaria->assignRole('secretaria');
     }
